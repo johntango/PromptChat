@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Prompt for GPT</title>
+    <script src="script.js" type="text/javascript"></script>
+    <style>
+      div {
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Create Prompt for GPT</h1>
+
+    <form id="promptForm" action="http://localhost:3030/prompt" method="post">
+      <label for="system">System Prompt:</label>
+      <input type="text" id="system" name="system" width="500" /><br /><br />
+      <label for="user">User Prompt</label>
+      <input type="text" id="user" name="user" width="500" /><br /><br />
+      <label for="style">Style:</label>
+      <select id="style" name="style">
+        <option value="informal">Informal</option>
+        <option value="formal">Formal</option>
+        <option value="humorous">Humorous</option>
+        <!-- Add more styles here: Professional
+Friendly
+Sarcastic
+Humorous
+Formal
+Casual
+Enthusiastic
+Grateful
+Apologetic
+Critical
+Optimistic
+Pessimistic
+Curious
+Confident
+Concerned
+Sympathetic
+Empathetic
+Authoritative
+Inspirational
+Skeptical--></select
+      ><br /><br />
+
+      <label for="tone">Tone:</label>
+      <select id="tone" name="tone">
+        <option value="positive">Positive</option>
+        <option value="neutral">Neutral</option>
+        <option value="negative">Negative</option>
+        <!-- Add more tones here --></select
+      ><br /><br />
+
+      <label for="language">Language:</label>
+      <select id="language" name="language">
+        <option value="English">English</option>
+        <option value="Spanish">Spanish</option>
+        <option value="French">French</option>
+        <option value="Arabic">Arabic</option>
+        <!-- Add more languages here English
+Spanish
+French
+German
+Chinese (Simplified)
+Chinese (Traditional)
+Japanese
+Russian
+Italian
+Portuguese
+Dutch
+Arabic
+Hindi
+Korean
+Swedish
+Greek
+Hebrew
+Turkish
+Latin
+Norwegian--></select
+      ><br /><br />
+      <!-- input could be used to submit the form
+      <input type="submit" value="Submit" />
+-->
+    </form>
+    <button onclick="sendPrompt()">Submit it</button>
+    <p>Server Response:</p>
+    <div id="response"></div>
+  </body>
+</html>
