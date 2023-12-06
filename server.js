@@ -39,26 +39,28 @@ app.post('/test-prompt', async(req, res) => {
 app.post('/prompt', async(req, res) => {
   // get the values from the request 
   console.log(JSON.stringify(req.body));
-  const topic = req.body.topic;
+  const system = req.body.system;
+  const user = req.body.user;
   const style = req.body.style;
   const tone = req.body.tone;
   const language = req.body.language;
   console.log("topic: " + topic)
 
   try {
-      let prompt = "Write aproximately 100 word article on this topic: " + topic + " using this tone: " + tone + " in this style: " + style + " in this language: " + language;
+      let prompt =  system + user + " using this tone: " + tone + " in this style: " + style + " in this language: " + language;
       console.log("prompt: " + prompt)
-      await openai.completions.create({
-            model: "text-davinci-003",
-                      prompt: prompt,
-                      max_tokens: 32,
-                      temperature: 0.5,
-                    }).then((response) => {
-                        let chatResponse = response.choices[0].text;
-                        console.log("chatResponse: " + chatResponse);
-                        // send response text back to client
-                    res.send(chatResponse);
-      });
+
+      async function genChat() {
+        const completion = await openai.chat.completions.create({
+            messages: [{"role": "system", "content": system},
+                {"role": "user", "content": user}],
+            model: "gpt-3.5-turbo",
+          });
+          let chatResponse = completion.choices[0].text;
+          console.log(chatResponse);
+          res.send(chatResponse);
+    }
+    genChat();
   } catch (error) {
         console.error('Error:', error);
   }
