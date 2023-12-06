@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // get OPENAI_API_KEY from GitHub secrets
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-openai = new OpenAI({apiKey: OPENAI_API_KEY});
+let openai = new OpenAI({apiKey: OPENAI_API_KEY});
 
 // Middleware to parse JSON payloads in POST requests
 app.use(express.json());
@@ -44,24 +44,22 @@ app.post('/prompt', async(req, res) => {
   const style = req.body.style;
   const tone = req.body.tone;
   const language = req.body.language;
-  console.log("topic: " + topic)
+  console.log("system: " + system)
+  console.log("user: " + user)
 
   try {
-      let prompt =  system + user + " using this tone: " + tone + " in this style: " + style + " in this language: " + language;
-      console.log("prompt: " + prompt)
-
-      async function genChat() {
-        const completion = await openai.chat.completions.create({
-            messages: [{"role": "system", "content": system},
+      let prompt =  system;
+      await openai.chat.completions.create({
+            messages: [{"role": "system", "content": prompt},
                 {"role": "user", "content": user}],
             model: "gpt-3.5-turbo",
-          });
-          let chatResponse = completion.choices[0].text;
-          console.log(chatResponse);
-          res.send(chatResponse);
-    }
-    genChat();
-  } catch (error) {
+          }).then((response) => {
+            console.log(response.choices[0]);
+            console.log("response sent")
+            res.send(response.choices[0].text);
+        });
+  }
+  catch (error) {
         console.error('Error:', error);
   }
 });
