@@ -37,20 +37,27 @@ app.post('/prompt', async(req, res) => {
   let m1 = {"role": "system", "content": ""};
   let m2 = {"role": "user", "content": ""}
   let m3 = {"role": "assistant", "content": ""}
+  let messages = [];
   // check if system has one or more characters
   if (system.length > 0) {
     m1 = {"role": "system", "content": system};
+    console.log("m1: " + JSON.stringify(m1))
+    messages.push(m1);
   }
   if (user.length > 0) {
     m2 = {"role": "user", "content": user};
+    console.log("m2: " + JSON.stringify(m2))
+    messages.push(m2);
   }
   if (assistant.length > 0) {
     m3= {"role": "assistant", "content": assistant};
+    console.log("m3: " + JSON.stringify(m3))
+    messages.push(m3);
   }
 
   try {
       await openai.chat.completions.create({
-            messages: [m1, m2],    // not using m3 at the moment
+            messages: messages,    // not using m3 at the moment
             model: "gpt-4",
           }).then((response) => {
             console.log(response.choices[0].message);
