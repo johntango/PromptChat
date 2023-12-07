@@ -30,6 +30,7 @@ app.post('/prompt', async(req, res) => {
   const system = req.body.system;
   const user = req.body.user;
   const assistant = req.body.assistant;
+  const user2 = req.body.user2;
   const style = req.body.style;
   const tone = req.body.tone;
   const language = req.body.language;
@@ -37,6 +38,7 @@ app.post('/prompt', async(req, res) => {
   let m1 = {"role": "system", "content": ""};
   let m2 = {"role": "user", "content": ""}
   let m3 = {"role": "assistant", "content": ""}
+  let m4 = {"role": "user", "content": ""}
   let messages = [];
   // check if system has one or more characters
   if (system.length > 0) {
@@ -54,7 +56,11 @@ app.post('/prompt', async(req, res) => {
     console.log("m3: " + JSON.stringify(m3))
     messages.push(m3);
   }
-
+  if (user2.length > 0) {
+    m4= {"role": "user", "content": user2};
+    console.log("m4: " + JSON.stringify(m4))
+    messages.push(m4);
+  }
   try {
       await openai.chat.completions.create({
             messages: messages,    // not using m3 at the moment
