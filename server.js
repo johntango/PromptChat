@@ -23,40 +23,39 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-// GET route
-app.post('/test-prompt', async(req, res) => {
-    const topic = req.body.topic;
-    const style = req.body.style;
-    const tone = req.body.tone;
-    const language = req.body.language;
-    res.json({  message: "Write a 100 word article on this topic: " + topic + "using this tone: " + tone + " in this style: " + style + " in this language: " + language });
-});
-// Existing imports and setup here...
-
-// New /prompt POST route
-
 
 app.post('/prompt', async(req, res) => {
   // get the values from the request 
   console.log(JSON.stringify(req.body));
   const system = req.body.system;
   const user = req.body.user;
+  const assistant = req.body.assistant;
   const style = req.body.style;
   const tone = req.body.tone;
   const language = req.body.language;
   console.log("system: " + system)
-  console.log("user: " + user)
+  let m1 = {"role": "system", "content": ""};
+  let m2 = {"role": "user", "content": ""}
+  let m3 = {"role": "assistant", "content": ""}
+  // check if system has one or more characters
+  if (system.length > 0) {
+    m1 = {"role": "system", "content": system};
+  }
+  if (user.length > 0) {
+    m2 = {"role": "user", "content": user};
+  }
+  if (assistant.length > 0) {
+    m3= {"role": "assistant", "content": assistant};
+  }
 
   try {
-      let prompt =  system;
       await openai.chat.completions.create({
-            messages: [{"role": "system", "content": prompt},
-                {"role": "user", "content": user}],
-            model: "gpt-3.5-turbo",
+            messages: [m1, m2],    // not using m3 at the moment
+            model: "gpt-4",
           }).then((response) => {
-            console.log(response.choices[0]);
+            console.log(response.choices[0].message);
             console.log("response sent")
-            res.send(response.choices[0].text);
+            res.send(response.choices[0].message.content);
         });
   }
   catch (error) {

@@ -5,11 +5,12 @@
     // hit /prompt endpoint in server with POST and form data
     const system = document.getElementById("system").value;
     const user = document.getElementById("user").value;
+    const assistant = document.getElementById("assistant").value;
     const style = document.getElementById("style").value;
     const tone = document.getElementById("tone").value;
     const language = document.getElementById("language").value;
 
-    const data = { system,user, style, tone, language };
+    const data = { system, user, assistant, style, tone, language };
     console.log("data: " + JSON.stringify(data));
     fetch('/prompt', {
       method: 'POST',
