@@ -56,11 +56,7 @@ app.post('/prompt', async(req, res) => {
     console.log("m3: " + JSON.stringify(m3))
     messages.push(m3);
   }
-  if (user2.length > 0) {
-    m4= {"role": "user", "content": user2};
-    console.log("m4: " + JSON.stringify(m4))
-    messages.push(m4);
-  }
+
   try {
       await openai.chat.completions.create({
             messages: messages,    // not using m3 at the moment

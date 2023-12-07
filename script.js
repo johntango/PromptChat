@@ -11,7 +11,7 @@
     const tone = document.getElementById("tone").value;
     const language = document.getElementById("language").value;
 
-    const data = { system, user, assistant,user2, style, tone, language };
+    const data = { system, user, assistant, user2, style, tone, language };
     console.log("data: " + JSON.stringify(data));
     fetch('/prompt', {
       method: 'POST',
@@ -28,8 +28,5 @@
       .catch((error) => {
         console.error('Error:', error);
       });
-
-
-  
   
   }
