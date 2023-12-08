@@ -55,7 +55,7 @@ app.post('/prompt', async(req, res) => {
   }
   if (user2.length > 0) {
     m4= {"role": "user", "content": user2};
-    console.log("m4: " + JSON.stringify(m3))
+    console.log("m4: " + JSON.stringify(m4))
     messages.push(m4);
   }
   try {
